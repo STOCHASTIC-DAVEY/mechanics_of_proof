@@ -11,8 +11,16 @@ example {x : ℚ} (hx : 3 * x = 2) : x ≠ 1 := by
     _ = 2 / 3 := by rw [hx]
     _ < 1 := by numbers
 
+#check ne_of_lt
+#check ne_of_gt
+
+
 example {y : ℝ} : y ^ 2 + 1 ≠ 0 := by
-  sorry
+  apply ne_of_gt
+  calc
+    0 ≤ y ^ 2 := by extra
+    _ < y ^ 2 + 1 := by extra
+
 
 example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
   apply le_antisymm
@@ -26,7 +34,24 @@ example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
 
 
 example {m : ℤ} (hm : m + 1 = 5) : 3 * m ≠ 6 := by
-  sorry
+apply ne_of_gt
+calc
+  3 * m = 3 * (m + 1 - 1) := by ring
+      _ = 3 * (5 - 1) := by rw [hm]
+      _ = 12 := by numbers
+      _ > 6 := by numbers
 
 example {s : ℚ} (h1 : 3 * s ≤ -6) (h2 : 2 * s ≥ -4) : s = -2 := by
-  sorry
+apply le_antisymm
+have h3 : s ≤ -2 := by
+  calc
+    s = ( 1 / 3 ) * (3 * s) := by ring
+     _≤ ( 1 / 3 ) * (-6) := by rel[h1]
+     _= -2 := by ring
+apply h3
+have h4 : s ≥ -2 := by
+  calc
+    s = ( 1 / 2 ) * (2 * s) := by ring
+     _≥ ( 1 / 2 ) * (-4) := by rel[h2]
+     _= -2 := by ring
+apply h4
