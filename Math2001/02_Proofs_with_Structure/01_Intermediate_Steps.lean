@@ -85,17 +85,18 @@ have h4 : x * (x + 2) = 2 * (x + 2) := by
 cancel (x + 2) at h4
 
 example {n : ℤ} (hn : n ^ 2 + 4 = 4 * n) : n = 2 := by
-have h1 : n ≥ 1 := by
-calc n = ( 1 / 4 ) * ( 4 * n ):= by ring
-          _= ( 1 / 4 ) * (n ^ 2 + 4) := by ring
-          _≥ ( 1 / 4 ) * (0 + 4) := by extra
-          _= 1 := by ring
-
-
-example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
 have h2 : ( n - 2 ) ^ 2 = 0 := by
     calc ( n - 2 ) ^ 2 = (n ^ 2 + 4 ) - 4 * n := by ring
                       _= 4 * n - 4 * n := by rw[hn]
                       _= 0 := by ring
-cancel 2 at h
-addarith [h]
+cancel 2 at h2
+addarith [h2]
+
+example (x y : ℚ) (h1 : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
+have h3 : x * (1 -  y) ≥ 0 := by
+  calc x * (1 -  y) = x - x * y := by ring
+                _= x - 1 := by rw[h1]
+                _≥ 1 - 1 := by rel [h2]
+                _= 0 := by numbers
+cancel x at h3
+addarith [h3]
