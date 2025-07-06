@@ -136,10 +136,38 @@ example {t : ℝ} (h : ∃ a : ℝ, a * t + 1 < a + t) : t ≠ 1 := by
     addarith[hx']
 
 example {m : ℤ} (h : ∃ a, 2 * a = m) : m ≠ 5 := by
-  sorry
+  obtain ⟨ a, ham ⟩ := h
+  have H := le_or_gt a 2
+  obtain ( h1| h2 ):= H
+  · apply ne_of_lt
+    calc
+      m = 2 * a := by rw[ham]
+       _≤ 2 * 2 := by rel[h1]
+       _< 5 := by numbers
+  · apply ne_of_gt
+    have h : a ≥ 3 := by addarith [h2]
+    calc
+        m = 2 * a := by rw[ham]
+         _≥ 2 * 3 := by rel[h]
+         _> 5 := by numbers
 
 example {n : ℤ} : ∃ a, 2 * a ^ 3 ≥ n * a + 7 := by
-  sorry
+  have H := le_or_gt n 0
+  obtain (h1|h2) := H
+  · use 3
+    have hx : 2 * 3 ^ 3 ≥ n * 3 + 7 := by
+        calc
+        2 * 3 ^ 3 ≥ 7 := by numbers
+                 _= 0 * 3 + 7 := by numbers
+                 _≥ n * 3 + 7 := by rel[h1]
+    calc
+      2 * 3 ^ 3 ≥ 7 := by numbers
+               _= 7 := by numbers
+               _≥ n * 3 + 7 := by rel [hx]
+  · use n + 1
+    calc 2 * (n + 1) ^ 3
+
+
 
 example {a b c : ℝ} (ha : a ≤ b + c) (hb : b ≤ a + c) (hc : c ≤ a + b) :
     ∃ x y z, x ≥ 0 ∧ y ≥ 0 ∧ z ≥ 0 ∧ a = y + z ∧ b = x + z ∧ c = x + y := by
