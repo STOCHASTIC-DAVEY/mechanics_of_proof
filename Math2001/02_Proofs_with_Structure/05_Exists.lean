@@ -152,23 +152,32 @@ example {m : ℤ} (h : ∃ a, 2 * a = m) : m ≠ 5 := by
          _> 5 := by numbers
 
 example {n : ℤ} : ∃ a, 2 * a ^ 3 ≥ n * a + 7 := by
-  have H := le_or_gt n 0
-  obtain (h1|h2) := H
-  · use 3
-    have hx : 2 * 3 ^ 3 ≥ n * 3 + 7 := by
-        calc
-        2 * 3 ^ 3 ≥ 7 := by numbers
-                 _= 0 * 3 + 7 := by numbers
-                 _≥ n * 3 + 7 := by rel[h1]
-    calc
-      2 * 3 ^ 3 ≥ 7 := by numbers
-               _= 7 := by numbers
-               _≥ n * 3 + 7 := by rel [hx]
-  · use n + 1
-    calc 2 * (n + 1) ^ 3
-
-
+have H := le_or_gt n 0
+obtain (h1|h2) := H
+· use 2
+  calc 2 * 2 ^ 3 ≥ 0 * 2 + 7 := by numbers
+                _≥ n * 2 + 7 := by rel [h1]
+· use n + 1
+  have h' : n ≥ 1 := by addarith [h2]
+  calc
+  2 * ( n + 1 ) ^ 3 = 2 * ( n + 1 ) ^ 3 - n * ( n + 1) - 7 + n * ( n + 1) + 7 := by ring
+                     _= (n + 1) * ( 2 * n * n + 3 * n + 2 ) + n * ( n + 1) := by ring
+                     _≥ (1 + 1) * ( 2 * 1 * 1 + 3 * 1 + 2 ) + n * ( n + 1) := by rel [h']
+                     _= n * ( n + 1 ) + 7 + 7 := by ring
+                     _≥ n * ( n + 1 ) + 7 := by extra
+--weird syntax for extra
 
 example {a b c : ℝ} (ha : a ≤ b + c) (hb : b ≤ a + c) (hc : c ≤ a + b) :
     ∃ x y z, x ≥ 0 ∧ y ≥ 0 ∧ z ≥ 0 ∧ a = y + z ∧ b = x + z ∧ c = x + y := by
-  sorry
+use ( b + c - a ) / 2, ( a + c - b ) / 2, ( a + b - c ) / 2
+constructor
+addarith [ha]
+constructor
+addarith [hb]
+constructor
+addarith [hc]
+constructor
+ring
+constructor
+ring
+ring
