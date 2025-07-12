@@ -93,19 +93,50 @@ calc
   _= x * ( 3 * k -4 * x * k ^ 2 ) := by ring
 
 example {m n : ℤ} (h : m ∣ n) : m ∣ 2 * n ^ 3 + n := by
-  sorry
+obtain ⟨k,hk⟩ := h
+use 2 * m ^2 * k ^ 3  + k
+calc
+  2 * n ^ 3 + n = 2 * (m * k) ^ 3 + m * k := by rw[hk]
+               _= m * ( 2 * m ^2 * k ^ 3  + k) := by ring
 
 example {a b : ℤ} (hab : a ∣ b) : a ∣ 2 * b ^ 3 - b ^ 2 + 3 * b := by
-  sorry
+obtain ⟨k,hk⟩:= hab
+use 2 * a ^ 2 * k ^ 3 - a * k ^ 2+ 3 * k
+calc
+  2 * b ^ 3 - b ^ 2 + 3 * b = 2 * (a * k) ^ 3 - (a * k) ^ 2 + 3 * (a * k) := by rw[hk]
+                           _= a * ( 2 * a ^ 2 * k ^ 3 - a * k ^ 2+ 3 * k ) := by ring
 
 example {k l m : ℤ} (h1 : k ∣ l) (h2 : l ^ 3 ∣ m) : k ^ 3 ∣ m := by
-  sorry
+obtain ⟨a,ha⟩:= h1
+obtain ⟨b,hb⟩:= h2
+use a ^ 3 * b
+calc
+  m = l ^ 3 * b := by rw[hb]
+   _= ( k * a) ^ 3 * b := by rw[ha]
+   _= k ^ 3 * ( a ^ 3 * b ) := by ring
 
 example {p q r : ℤ} (hpq : p ^ 3 ∣ q) (hqr : q ^ 2 ∣ r) : p ^ 6 ∣ r := by
-  sorry
+obtain ⟨a , ha⟩:= hpq
+obtain ⟨b , hb⟩:= hqr
+use  a ^ 2 * b
+calc
+  r = q ^ 2 * b := by rw[hb]
+   _= (p ^ 3 * a) ^ 2 * b := by rw[ha]
+   _=p ^ 6 *( a ^ 2 * b) := by ring
+
 
 example : ∃ n : ℕ, 0 < n ∧ 9 ∣ 2 ^ n - 1 := by
-  sorry
+  use 6
+  constructor
+  numbers
+  use 7
+  numbers
 
 example : ∃ a b : ℤ, 0 < b ∧ b < a ∧ a - b ∣ a + b := by
-  sorry
+use 2,1
+constructor
+numbers
+constructor
+numbers
+use 3
+numbers
