@@ -139,11 +139,11 @@ ring
 
 example {a b : ℤ} (h : a ≡ b [ZMOD 5]) : 2 * a + 3 ≡ 2 * b + 3 [ZMOD 5] := by
 obtain ⟨k,hk⟩:= h
-use 10
+use 2 * k
 calc
   2 * a + 3 - (2 * b + 3) = 2 * (a-b) := by ring
                          _= 2 * (5 * k) := by rw[hk]
-                         _= 10 * k := by ring
+                         _= 5 * (2 * k) := by ring
 
 
 example {m n : ℤ} (h : m ≡ n [ZMOD 4]) : 3 * m - 1 ≡ 3 * n - 1 [ZMOD 4] := by
