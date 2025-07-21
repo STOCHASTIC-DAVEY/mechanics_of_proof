@@ -216,8 +216,7 @@ theorem dvd_iff_modEq {a n : ℤ} : n ∣ a ↔ a ≡ 0 [ZMOD n] := by
 
 example {a b : ℤ} (hab : a ∣ b) : a ∣ 2 * b ^ 3 - b ^ 2 + 3 * b := by
 sorry
-
-  apply dvd_iff_modEq
+#check dvd_iff_modEq
 
 #check abs_le_of_sq_le_sq'
 
