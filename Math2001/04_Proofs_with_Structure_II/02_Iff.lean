@@ -215,10 +215,7 @@ theorem dvd_iff_modEq {a n : ℤ} : n ∣ a ↔ a ≡ 0 [ZMOD n] := by
     addarith [hk]
 
 example {a b : ℤ} (hab : a ∣ b) : a ∣ 2 * b ^ 3 - b ^ 2 + 3 * b := by
-sorry
-#check dvd_iff_modEq
-
-#check abs_le_of_sq_le_sq'
+  sorry
 
 example {k : ℕ} : k ^ 2 ≤ 6 ↔ k = 0 ∨ k = 1 ∨ k = 2 := by
 constructor
